@@ -1,7 +1,7 @@
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
-async function captureBuildInformation(){
+const captureBuildInformation = async ()=>{
     const { stdout} = await exec('git rev-parse HEAD')
     const commitSha = stdout.replace('\n', '')
     const compileAt = new Date().toISOString()

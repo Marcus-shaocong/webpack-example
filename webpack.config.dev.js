@@ -35,12 +35,20 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const NpmInstallPlugin = require('npm-install-webpack-plugin')
-
+const codeGenConfig = require('./codegen')
 //const isDev = process.env.NODE_ENV === 'development'
 
 const baseConfig = {
     // debug: true,
-    // devtool: 'inline-source-map',
+    /* eval: put source-map in the same bundle.js
+        sourceMappingURL=app.bundle.js.map
+        source-map: has a separate map file
+        hidden-source-map: hide source map from others, worry about leaking
+        output.source.map file to customize the name out the output.
+
+        base64 -D
+    */
+    devtool: 'inline-source-map', //other options: 'none', 'eval','eval-source-map'
     // noInfo:false,
     name:'base',
     entry:[
@@ -94,7 +102,8 @@ const baseConfig = {
 module.exports = [
     {
         name:'other',
-        devtool:"source-map",
+
+        devtool:"source-map", //other options: 'none', 'eval','eval-source-map'
         entry:[
             path.resolve(__dirname, "src/index.js"),
         ],
@@ -111,7 +120,7 @@ module.exports = [
         console.log(`This is a ${isDev? "dev" :"prod"} build`)
         if(isDev){
             console.log("merge continue")
-            newconf= merge(baseConfig, require('./babelLoader'),{
+            newconf= merge(baseConfig, codeGenConfig,require('./babelLoader'),{
                 plugins:[
                    // new NpmInstallPlugin(), //in development can auto install package if some of package is missing.
                     new webpack.HotModuleReplacementPlugin(),
@@ -128,7 +137,7 @@ module.exports = [
             // baseConfig.plugins.push(
             //     new webpack.NamedModulesPlugin())              
         }else{
-            return newconf= merge(baseConfig,require('./babelLoader'))
+            return newconf= merge(baseConfig,codeGenConfig,require('./babelLoader'))
         }
        
         console.log('bc',newconf)
