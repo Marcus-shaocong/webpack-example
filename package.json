@@ -1,0 +1,46 @@
+{
+  "name": "my-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "babel-node buildScripts/startMessage.js",
+    "start": "babel-node buildScripts/srcServer.js",
+    "open:src": "node buildScripts/srcServer.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "security-check": "nsp check",
+    "share": "lt --port 3000",
+    "dev": "webpack-dev-server",
+    "watch": "node_modules\\.bin\\webpack --watch --config webpack.config.dev.js",
+    "devserver": " node_modules\\.bin\\webpack-dev-server --config webpack.config.dev.js --env development --config-name base",
+    "prod": " node_modules\\.bin\\webpack-dev-server --config webpack.config.dev.js --env production --config-name base",
+    "autow": "nodemon -w webpack.config.dev.js -x npm run devserver ",
+    "autod": "nodemon -w webpack.config.dev.js -x npm run prod",
+    "debugd": "node --inspect-brk node_modules\\.bin\\webpack-dev-server --config webpack.config.dev.js --env production --config-name base"
+  },
+  "keywords": [],
+  "author": "Samer Buna",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "chalk": "^2.4.1",
+    "express": "^4.16.4",
+    "numeral": "^2.0.6",
+    "open": "0.0.5",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.2.3",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^1.0.0",
+    "npm-install-webpack-plugin": "^4.0.5",
+    "strip-loader": "^0.1.2",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-merge": "^4.1.5"
+  }
+}
